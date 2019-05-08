@@ -55,24 +55,23 @@ void loop() {
   txBuffer[4] = 0x0;
   txBuffer[5] = 0x0;
   txBuffer[6] = 0x0;
-  txBuffer[7] = can_cksum(txBuffer, 7, 0x404);
+  txBuffer[7] = can_cksum (txBuffer, 7, 0x404);
   //txBuffer[i] = sendData[i];
-}
-// Setup CAN packet.
-txMsg.ctrl.ide = MESSAGE_PROTOCOL;  // Set CAN protocol (0: CAN 2.0A, 1: CAN 2.0B)
-txMsg.id.ext   = MESSAGE_ID;        // Set message ID
-txMsg.dlc      = MESSAGE_LENGTH;    // Data length: 8 bytes
-txMsg.ctrl.rtr = MESSAGE_RTR;       // Set rtr bit
+  // Setup CAN packet.
+  txMsg.ctrl.ide = MESSAGE_PROTOCOL;  // Set CAN protocol (0: CAN 2.0A, 1: CAN 2.0B)
+  txMsg.id.ext   = MESSAGE_ID;        // Set message ID
+  txMsg.dlc      = MESSAGE_LENGTH;    // Data length: 8 bytes
+  txMsg.ctrl.rtr = MESSAGE_RTR;       // Set rtr bit
 
-// Send command to the CAN port controller
-txMsg.cmd = CMD_TX_DATA;       // send message
-// Wait for the command to be accepted by the controller
-while (can_cmd(&txMsg) != CAN_CMD_ACCEPTED);
-// Wait for command to finish executing
-while (can_get_status(&txMsg) == CAN_STATUS_NOT_COMPLETED);
-// Transmit is now complete. Wait a bit and loop
-//delay(500);
-//don't delay, transmit today!
+  // Send command to the CAN port controller
+  txMsg.cmd = CMD_TX_DATA;       // send message
+  // Wait for the command to be accepted by the controller
+  while (can_cmd(&txMsg) != CAN_CMD_ACCEPTED);
+  // Wait for command to finish executing
+  while (can_get_status(&txMsg) == CAN_STATUS_NOT_COMPLETED);
+  // Transmit is now complete. Wait a bit and loop
+  //delay(500);
+  //don't delay, transmit today!
 }
 
 //TOYOTA CAN CHECKSUM
