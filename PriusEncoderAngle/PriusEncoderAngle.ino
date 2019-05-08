@@ -9,11 +9,11 @@
 
 //init Encoder thingy
 #define EncoderCS1 8 //TODO: Set Pin!
-long encoder1Reading = 0;
+uint16_t encoder1Reading = 0;
 Encoder_Buffer Encoder1(EncoderCS1);
 
 //init CAN thingy
-#define MESSAGE_ID        256       // Message ID
+#define MESSAGE_ID        0x404       // Message ID
 #define MESSAGE_PROTOCOL  1         // CAN protocol (0: CAN 2.0A, 1: CAN 2.0B)
 #define MESSAGE_LENGTH    8         // Data length: 8 bytes
 #define MESSAGE_RTR       0         // rtr bit
@@ -22,7 +22,6 @@ Encoder_Buffer Encoder1(EncoderCS1);
 st_cmd_t txMsg;
 
 // Array of test data to send
-const uint8_t sendData[8] = {0,10,20,40,80,100,120,127};
 // Transmit buffer
 uint8_t txBuffer[8] = {};
 
@@ -47,25 +46,42 @@ void loop() {
   //Encoder1.clearEncoderCount();// Clear Encoder
   //Will be a number like 0, -13876, 13876, 7553839
 
-//CAN thingy
+  //CAN thingy
   //  load data into tx buffer
-  for (int i=0; i<8; i++){
-    txBuffer[i] = sendData[i];
-  }
-  // Setup CAN packet.
-  txMsg.ctrl.ide = MESSAGE_PROTOCOL;  // Set CAN protocol (0: CAN 2.0A, 1: CAN 2.0B)
-  txMsg.id.ext   = MESSAGE_ID;        // Set message ID
-  txMsg.dlc      = MESSAGE_LENGTH;    // Data length: 8 bytes
-  txMsg.ctrl.rtr = MESSAGE_RTR;       // Set rtr bit
-  
-  // Send command to the CAN port controller
-  txMsg.cmd = CMD_TX_DATA;       // send message
-  // Wait for the command to be accepted by the controller
-  while(can_cmd(&txMsg) != CAN_CMD_ACCEPTED);
-  // Wait for command to finish executing
-  while(can_get_status(&txMsg) == CAN_STATUS_NOT_COMPLETED);
-  // Transmit is now complete. Wait a bit and loop
-  delay(500);
+  txBuffer[0] = (encoder1Reading >> 8) & 0xFF;
+  txBuffer[1] = (encoder1Reading >> 0) & 0xFF;
+  txBuffer[2] = 0x0;
+  txBuffer[3] = 0x0;
+  txBuffer[4] = 0x0;
+  txBuffer[5] = 0x0;
+  txBuffer[6] = 0x0;
+  txBuffer[7] = can_cksum(txBuffer, 7, 0x404);
+  //txBuffer[i] = sendData[i];
+}
+// Setup CAN packet.
+txMsg.ctrl.ide = MESSAGE_PROTOCOL;  // Set CAN protocol (0: CAN 2.0A, 1: CAN 2.0B)
+txMsg.id.ext   = MESSAGE_ID;        // Set message ID
+txMsg.dlc      = MESSAGE_LENGTH;    // Data length: 8 bytes
+txMsg.ctrl.rtr = MESSAGE_RTR;       // Set rtr bit
+
+// Send command to the CAN port controller
+txMsg.cmd = CMD_TX_DATA;       // send message
+// Wait for the command to be accepted by the controller
+while (can_cmd(&txMsg) != CAN_CMD_ACCEPTED);
+// Wait for command to finish executing
+while (can_get_status(&txMsg) == CAN_STATUS_NOT_COMPLETED);
+// Transmit is now complete. Wait a bit and loop
+//delay(500);
+//don't delay, transmit today!
 }
 
+//TOYOTA CAN CHECKSUM
+int can_cksum (uint8_t *dat, uint8_t len, uint16_t addr) {
+  uint8_t checksum = 0;
+  checksum = ((addr & 0xFF00) >> 8) + (addr & 0x00FF) + len + 1;
+  //uint16_t temp_msg = msg;
+  for (int ii = 0; ii < len; ii++) {
+    checksum += (dat[ii]);
+  }
+  return checksum;
 }
