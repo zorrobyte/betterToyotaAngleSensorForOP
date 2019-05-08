@@ -8,7 +8,7 @@
 #include <at90can_drv.h>
 
 //init Encoder thingy
-#define EncoderCS1 8 //TODO: Set Pin!
+#define EncoderCS1 7 //TODO: Set Pin!
 uint16_t encoder1Reading = 0;
 Encoder_Buffer Encoder1(EncoderCS1);
 
