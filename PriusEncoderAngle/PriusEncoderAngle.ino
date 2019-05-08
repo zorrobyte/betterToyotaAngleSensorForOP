@@ -18,6 +18,14 @@ Encoder_Buffer Encoder1(EncoderCS1);
 #define MESSAGE_LENGTH    8         // Data length: 8 bytes
 #define MESSAGE_RTR       0         // rtr bit
 
+// CAN message object
+st_cmd_t txMsg;
+
+// Array of test data to send
+const uint8_t sendData[8] = {0,10,20,40,80,100,120,127};
+// Transmit buffer
+uint8_t txBuffer[8] = {};
+
 void setup() {
   // put your setup code here, to run once:
   //encoder thingy
