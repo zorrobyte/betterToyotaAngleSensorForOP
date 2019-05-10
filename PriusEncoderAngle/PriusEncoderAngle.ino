@@ -51,20 +51,21 @@ void loop() {
 
   if (encoder1Reading != lastencoder1Reading) {
     if (lastencoder1Reading < encoder1Reading) {
-      rate = (0.0439453125 / ((millis() - lastmillis) / 1000)) * 0.0174533;
+      rate = (4394531.25 / (micros() - lastmillis));
     }
     if (lastencoder1Reading > encoder1Reading) {
-      rate = -(0.0439453125 / ((millis() - lastmillis) / 1000)) * 0.0174533;
+      rate = -(4394531.25 / (micros() - lastmillis));
     }
     lastencoder1Reading = encoder1Reading;
+    lastmillis = micros()
   }
 
   //CAN thingy
   //  load data into tx buffer
   txBuffer[0] = (encoder1Reading >> 8) & 0xFF;
   txBuffer[1] = (encoder1Reading >> 0) & 0xFF;
-  txBuffer[2] = ((rate * 1000) >> 8) & 0xFF;
-  txBuffer[3] = ((rate * 1000) >> 0) & 0xFF;
+  txBuffer[2] = (rate >> 8) & 0xFF;
+  txBuffer[3] = (rate >> 0) & 0xFF;
   txBuffer[4] = 0x0;
   txBuffer[5] = 0x0;
   txBuffer[6] = 0x0;
