@@ -13,7 +13,7 @@ uint16_t encoder1Reading = 0;
 Encoder_Buffer Encoder1(EncoderCS1);
 
 //init CAN thingy
-#define MESSAGE_ID        0x404       // Message ID
+#define MESSAGE_ID        0x23       // Message ID
 #define MESSAGE_PROTOCOL  1         // CAN protocol (0: CAN 2.0A, 1: CAN 2.0B)
 #define MESSAGE_LENGTH    8         // Data length: 8 bytes
 #define MESSAGE_RTR       0         // rtr bit
@@ -42,7 +42,6 @@ void loop() {
 
   //encoder thingy
   encoder1Reading = Encoder1.readEncoder();//Read Encoder
-  Serial.println(encoder1Reading);
   //Encoder1.clearEncoderCount();// Clear Encoder
   //Will be a number like 0, -13876, 13876, 7553839
 
@@ -55,13 +54,15 @@ void loop() {
   txBuffer[4] = 0x0;
   txBuffer[5] = 0x0;
   txBuffer[6] = 0x0;
-  txBuffer[7] = can_cksum (txBuffer, 7, 0x404);
+  txBuffer[7] = can_cksum (txBuffer, 7, 0x23);
+  //txBuffer[7] = 0x0;
   //txBuffer[i] = sendData[i];
   // Setup CAN packet.
   txMsg.ctrl.ide = MESSAGE_PROTOCOL;  // Set CAN protocol (0: CAN 2.0A, 1: CAN 2.0B)
   txMsg.id.ext   = MESSAGE_ID;        // Set message ID
   txMsg.dlc      = MESSAGE_LENGTH;    // Data length: 8 bytes
   txMsg.ctrl.rtr = MESSAGE_RTR;       // Set rtr bit
+  //Serial.println(txBuffer[1]);
 
   // Send command to the CAN port controller
   txMsg.cmd = CMD_TX_DATA;       // send message
