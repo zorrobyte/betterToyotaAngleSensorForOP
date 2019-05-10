@@ -9,7 +9,10 @@
 
 //init Encoder thingy
 #define EncoderCS1 7 //TODO: Set Pin!
-uint16_t encoder1Reading = 0;
+int16_t encoder1Reading = 0;
+int16_t lastencoder1Reading = 0;
+double lastmillis = 0;
+int16_t rate = 0;
 Encoder_Buffer Encoder1(EncoderCS1);
 
 //init CAN thingy
@@ -48,6 +51,7 @@ void loop() {
 
   if (encoder1Reading != lastencoder1Reading) {
     if (lastencoder1Reading < encoder1Reading) {
+<<<<<<< HEAD
       rate = (4394531.25 / (micros() - lastmillis));
     }
     if (lastencoder1Reading > encoder1Reading) {
@@ -55,14 +59,27 @@ void loop() {
     }
     lastencoder1Reading = encoder1Reading;
     lastmillis = micros()
+=======
+      rate = (0.0439453125 / ((millis() - lastmillis) / 1000)) * 0.0174533;
+    }
+    if (lastencoder1Reading > encoder1Reading) {
+      rate = -(0.0439453125 / ((millis() - lastmillis) / 1000)) * 0.0174533;
+    }
+    lastencoder1Reading = encoder1Reading;
+>>>>>>> parent of efe198c... Revert "WITH RATE!1"
   }
 
   //CAN thingy
   //  load data into tx buffer
   txBuffer[0] = (encoder1Reading >> 8) & 0xFF;
   txBuffer[1] = (encoder1Reading >> 0) & 0xFF;
+<<<<<<< HEAD
   txBuffer[2] = (rate >> 8) & 0xFF;
   txBuffer[3] = (rate >> 0) & 0xFF;
+=======
+  txBuffer[2] = ((rate * 1000) >> 8) & 0xFF;
+  txBuffer[3] = ((rate * 1000) >> 0) & 0xFF;
+>>>>>>> parent of efe198c... Revert "WITH RATE!1"
   txBuffer[4] = 0x0;
   txBuffer[5] = 0x0;
   txBuffer[6] = 0x0;
