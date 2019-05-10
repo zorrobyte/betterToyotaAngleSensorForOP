@@ -57,7 +57,7 @@ void loop() {
       rate = -(4394531.25 / (micros() - lastmillis));
     }
     lastencoder1Reading = encoder1Reading;
-    lastmillis = micros()
+    lastmillis = micros();
   }
 
   //CAN thingy
