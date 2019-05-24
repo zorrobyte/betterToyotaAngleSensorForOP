@@ -1,27 +1,29 @@
-#include <mcp_can_dfs.h>
-#include <mcp_can.h>
 #include <Encoder_Buffer.h>
 
+#include <ASTCanLib.h>
+#include <config.h>
+#include <can_drv.h>
+#include <can_compiler.h>
+#include <can_lib.h>
+#include <at90can_drv.h>
 
 //init Encoder thingy
-#define EncoderCS1 8 //TODO: Set Pin!
+#define EncoderCS1 7 //TODO: Set Pin!
 int16_t encoder1Reading = 0;
 int16_t lastencoder1Reading = 0;
 double lastmillis = 0;
 int16_t rate = 0;
 Encoder_Buffer Encoder1(EncoderCS1);
 
-//init NEW CAN thingy
-const int SPI_CS_PIN = 9;
-MCP_CAN CAN(SPI_CS_PIN);
+//init CAN thingy
+#define MESSAGE_ID        0x23       // Message ID
+#define MESSAGE_PROTOCOL  1         // CAN protocol (0: CAN 2.0A, 1: CAN 2.0B)
+#define MESSAGE_LENGTH    8         // Data length: 8 bytes
+#define MESSAGE_RTR       0         // rtr bit
 
-//init OLD CAN thingy
-//#define MESSAGE_ID        0x23       // Message ID
-//#define MESSAGE_PROTOCOL  1         // CAN protocol (0: CAN 2.0A, 1: CAN 2.0B)
-//#define MESSAGE_LENGTH    8         // Data length: 8 bytes
-//#define MESSAGE_RTR       0         // rtr bit
 // CAN message object
-//st_cmd_t txMsg;
+st_cmd_t txMsg;
+
 // Array of test data to send
 // Transmit buffer
 uint8_t txBuffer[8] = {};
@@ -29,23 +31,13 @@ uint8_t txBuffer[8] = {};
 void setup() {
   // put your setup code here, to run once:
   //encoder thingy
-  //Serial.begin(9600);
+  Serial.begin(9600);
   SPI.begin();
   Encoder1.initEncoder();
-  //NEW CAN thingy
-  Serial.begin(115200);
-
-  while (CAN_OK != CAN.begin(CAN_500KBPS))              // init can bus : baudrate = 500k
-  {
-      Serial.println("CAN BUS Shield init fail");
-      Serial.println(" Init CAN BUS Shield again");
-      delay(100);
-  }
-  Serial.println("CAN BUS Shield init ok!");
-  //OLD CAN thingy
-  //canInit(500000);                  // Initialise CAN port. must be before Serial.begin
+  //CAN thingy
+  canInit(500000);                  // Initialise CAN port. must be before Serial.begin
   //Serial.begin(1000000);             // start serial port
-  //txMsg.pt_data = &txBuffer[0];      // reference message data to transmit buffer
+  txMsg.pt_data = &txBuffer[0];      // reference message data to transmit buffer
 }
 
 void loop() {
@@ -81,19 +73,18 @@ void loop() {
   //txBuffer[7] = 0x0;
   //txBuffer[i] = sendData[i];
   // Setup CAN packet.
-  //txMsg.ctrl.ide = MESSAGE_PROTOCOL;  // Set CAN protocol (0: CAN 2.0A, 1: CAN 2.0B)
-  //txMsg.id.ext   = MESSAGE_ID;        // Set message ID
-  //txMsg.dlc      = MESSAGE_LENGTH;    // Data length: 8 bytes
-  //txMsg.ctrl.rtr = MESSAGE_RTR;       // Set rtr bit
-  Serial.println(txBuffer[2]);
+  txMsg.ctrl.ide = MESSAGE_PROTOCOL;  // Set CAN protocol (0: CAN 2.0A, 1: CAN 2.0B)
+  txMsg.id.ext   = MESSAGE_ID;        // Set message ID
+  txMsg.dlc      = MESSAGE_LENGTH;    // Data length: 8 bytes
+  txMsg.ctrl.rtr = MESSAGE_RTR;       // Set rtr bit
+  //Serial.println(txBuffer[1]);
 
   // Send command to the CAN port controller
-  CAN.sendMsgBuf(0x23, 0, 8, txBuffer); //send out the message 'txBuffer' to the bus and tell other devices this is a standard frame from 0x23.
-  //txMsg.cmd = CMD_TX_DATA;       // send message
+  txMsg.cmd = CMD_TX_DATA;       // send message
   // Wait for the command to be accepted by the controller
-  //while (can_cmd(&txMsg) != CAN_CMD_ACCEPTED);
+  while (can_cmd(&txMsg) != CAN_CMD_ACCEPTED);
   // Wait for command to finish executing
-  //while (can_get_status(&txMsg) == CAN_STATUS_NOT_COMPLETED);
+  while (can_get_status(&txMsg) == CAN_STATUS_NOT_COMPLETED);
   // Transmit is now complete. Wait a bit and loop
   //delay(500);
   //don't delay, transmit today!
