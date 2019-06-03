@@ -4,6 +4,10 @@ Magnetic position sensor with magnet:
 
 https://www.digikey.com/product-detail/en/ams/AS5048B-TS_EK_AB/AS5048B-AB-1.0-ND/3188613
 
+Arduino Library:
+
+https://github.com/sosandroid/AMS_AS5048B
+
 Datasheet:
 
 https://www.mouser.com/ds/2/588/AS5048_DS000298_3-00-522570.pdf
