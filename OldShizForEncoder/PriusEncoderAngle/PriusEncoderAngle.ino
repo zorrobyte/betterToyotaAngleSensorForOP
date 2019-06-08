@@ -9,10 +9,7 @@
 
 //init Encoder thingy
 #define EncoderCS1 7 //TODO: Set Pin!
-int16_t encoder1Reading = 0;
-int16_t lastencoder1Reading = 0;
-double lastmillis = 0;
-int16_t rate = 0;
+int32_t encoder1Reading = 0;
 Encoder_Buffer Encoder1(EncoderCS1);
 
 //init CAN thingy
@@ -46,25 +43,12 @@ void loop() {
   //encoder thingy
   encoder1Reading = Encoder1.readEncoder();//Read Encoder
   //Encoder1.clearEncoderCount();// Clear Encoder
-  //Will be a number like 0, -13876, 13876, 7553839
-  lastencoder1Reading = encoder1Reading;
-
-  //if (encoder1Reading != lastencoder1Reading) {
-  //  if (lastencoder1Reading < encoder1Reading) {
-  //    rate = (4394531.25 / (micros() - lastmillis));
-  //  }
-  //  if (lastencoder1Reading > encoder1Reading) {
-  //    rate = -(4394531.25 / (micros() - lastmillis));
-  //  }
-  //  lastencoder1Reading = encoder1Reading;
-  //  lastmillis = micros();
-  //}
 
   //CAN thingy
   //  load data into tx buffer
-  txBuffer[0] = (encoder1Reading >> 8) & 0xFF;
-  txBuffer[1] = (encoder1Reading >> 0) & 0xFF;
-  txBuffer[2] = 0x0;
+  txBuffer[0] = (encoder1Reading >> 16) & 0xFF;
+  txBuffer[1] = (encoder1Reading >> 8) & 0xFF;
+  txBuffer[2] = (encoder1Reading >> 0) & 0xFF;
   txBuffer[3] = 0x0;
   //txBuffer[2] = (rate >> 8) & 0xFF;
   //txBuffer[3] = (rate >> 0) & 0xFF;
