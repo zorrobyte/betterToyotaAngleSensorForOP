@@ -49,23 +49,25 @@ void loop() {
   //Will be a number like 0, -13876, 13876, 7553839
   lastencoder1Reading = encoder1Reading;
 
-  if (encoder1Reading != lastencoder1Reading) {
-    if (lastencoder1Reading < encoder1Reading) {
-      rate = (4394531.25 / (micros() - lastmillis));
-    }
-    if (lastencoder1Reading > encoder1Reading) {
-      rate = -(4394531.25 / (micros() - lastmillis));
-    }
-    lastencoder1Reading = encoder1Reading;
-    lastmillis = micros();
-  }
+  //if (encoder1Reading != lastencoder1Reading) {
+  //  if (lastencoder1Reading < encoder1Reading) {
+  //    rate = (4394531.25 / (micros() - lastmillis));
+  //  }
+  //  if (lastencoder1Reading > encoder1Reading) {
+  //    rate = -(4394531.25 / (micros() - lastmillis));
+  //  }
+  //  lastencoder1Reading = encoder1Reading;
+  //  lastmillis = micros();
+  //}
 
   //CAN thingy
   //  load data into tx buffer
   txBuffer[0] = (encoder1Reading >> 8) & 0xFF;
   txBuffer[1] = (encoder1Reading >> 0) & 0xFF;
-  txBuffer[2] = (rate >> 8) & 0xFF;
-  txBuffer[3] = (rate >> 0) & 0xFF;
+  txBuffer[2] = 0x0;
+  txBuffer[3] = 0x0;
+  //txBuffer[2] = (rate >> 8) & 0xFF;
+  //txBuffer[3] = (rate >> 0) & 0xFF;
   txBuffer[4] = 0x0;
   txBuffer[5] = 0x0;
   txBuffer[6] = 0x0;
