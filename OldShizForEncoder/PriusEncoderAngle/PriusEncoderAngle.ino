@@ -73,7 +73,7 @@ void loop() {
   while (can_get_status(&txMsg) == CAN_STATUS_NOT_COMPLETED);
   // Transmit is now complete. Wait a bit and loop
   delay(5.6818181818);
-  //(88Hz)delay so it doesn't DOS the CAN BUS https://discordapp.com/channels/469524606043160576/574796986822295569/587308808938717185
+  //(176Hz)delay so it doesn't DOS the CAN BUS https://discordapp.com/channels/469524606043160576/574796986822295569/587308808938717185
 }
 
 //TOYOTA CAN CHECKSUM
