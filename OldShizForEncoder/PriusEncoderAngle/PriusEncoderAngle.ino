@@ -72,7 +72,7 @@ void loop() {
   // Wait for command to finish executing
   while (can_get_status(&txMsg) == CAN_STATUS_NOT_COMPLETED);
   // Transmit is now complete. Wait a bit and loop
-  //delay(500);
+  delay(10);
   //don't delay, transmit today!
 }
 
