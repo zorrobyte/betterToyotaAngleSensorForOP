@@ -16,7 +16,7 @@
 
 AMS_AS5048B angsensor;
 
-//min angle is 0, max is like 16357.00 or around
+//min angle is 0, max is like 16357.00 or around for RAW. Wraps back around to 0 (unsigned)
 
 struct can_frame canMsg1;
 MCP2515 mcp2515(10);
