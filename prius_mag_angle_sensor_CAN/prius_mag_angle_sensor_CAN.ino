@@ -47,8 +47,8 @@ void setup() {
 void loop() {
 
   //the angle sensor reading
-  Serial.print("Angle sensor raw : ");
-  Serial.println(angsensor.angleR(U_RAW, true));
+  //Serial.print("Angle sensor raw : ");
+  //Serial.println(angsensor.angleR(U_RAW, true));
 
   //set the encoder1reading to the angle
   encoder1Reading = angsensor.angleR(U_RAW, true);
@@ -69,7 +69,8 @@ void loop() {
   //send message
   mcp2515.sendMessage(&canMsg1);
 
-  Serial.println("Messages sent");
+  Serial.println(canMsg1.data[0]);
+  Serial.println(canMsg1.data[1]);
   
   delay(100);
 
