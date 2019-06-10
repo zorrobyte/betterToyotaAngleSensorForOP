@@ -38,7 +38,7 @@ void setup() {
   angsensor.setZeroReg();
   
   mcp2515.reset();
-  mcp2515.setBitrate(CAN_125KBPS);
+  mcp2515.setBitrate(CAN_500KBPS);
   mcp2515.setNormalMode();
   
   Serial.println("Example: Write to CAN");
