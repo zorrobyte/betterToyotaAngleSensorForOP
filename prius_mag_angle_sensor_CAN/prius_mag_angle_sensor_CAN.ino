@@ -24,6 +24,15 @@ MCP2515 mcp2515(10);
 //angle reading
 int16_t encoder1Reading = 0;
 
+//counter
+int counter = 1;
+
+//last angle
+int lastangle = 0;
+
+//big angle
+int32_t bigangle = 0;
+
 
 void setup() {
   
@@ -52,10 +61,27 @@ void loop() {
   //Serial.println(angsensor.angleR(U_RAW, true));
 
   //set the encoder1reading to the angle
-  encoder1Reading = angsensor.angleR(U_RAW, true);
-  Serial.println(angsensor.angleR(U_DEG, true));
+  encoder1Reading = angsensor.angleR(U_DEG, true);
   //Serial.println(angsensor.getMovingAvgExp());
 
+  counter++;
+
+  if (counter == 2) {
+    lastangle = encoder1Reading;
+    counter = 0;
+  };
+  Serial.println(lastangle);
+  Serial.println(encoder1Reading);
+
+  if (240<=lastangle<=359 and 0<=encoder1Reading<=120) {
+    bigangle +=360;
+  };
+  
+  if (240<=encoder1Reading<=359 and 0<=lastangle<=120) {
+    bigangle -= 360;
+  };
+  Serial.println(bigangle);
+  
   //the message
   canMsg1.can_id  = 0x23;
   canMsg1.can_dlc = 8;
@@ -75,7 +101,7 @@ void loop() {
   //Serial.println(canMsg1.data[0]);
   //Serial.println(canMsg1.data[1]);
   
-  //delay(100);
+  delay(5); // 200Hz
 
 }
 
