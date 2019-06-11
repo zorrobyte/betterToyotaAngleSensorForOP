@@ -70,6 +70,7 @@ void loop() {
     lastangle = encoder1Reading;
     counter = 0;
   };
+  
   Serial.println(lastangle);
   Serial.println(encoder1Reading);
 
