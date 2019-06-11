@@ -86,9 +86,9 @@ void loop() {
   //the message
   canMsg1.can_id  = 0x23;
   canMsg1.can_dlc = 8;
-  canMsg1.data[0] = (encoder1Reading >> 16) & 0xFF;
-  canMsg1.data[1] = (encoder1Reading >> 8) & 0xFF;
-  canMsg1.data[2] = (encoder1Reading >> 0) & 0xFF;
+  canMsg1.data[0] = (bigangle >> 16) & 0xFF;
+  canMsg1.data[1] = (bigangle >> 8) & 0xFF;
+  canMsg1.data[2] = (bigangle >> 0) & 0xFF;
   canMsg1.data[3] = 0x0;
   canMsg1.data[4] = 0x0;
   canMsg1.data[5] = 0x0;
