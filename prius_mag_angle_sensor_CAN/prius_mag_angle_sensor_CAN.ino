@@ -28,11 +28,12 @@ int16_t encoder1Reading = 0;
 void setup() {
   
   while (!Serial);
-  Serial.begin(9600);
+  Serial.begin(115200);
   SPI.begin();
 
   //init AMS_AS5048B object
   angsensor.begin();
+  angsensor.setClockWise(true);
 
   //consider the current position as zero
   angsensor.setZeroReg();
@@ -52,6 +53,8 @@ void loop() {
 
   //set the encoder1reading to the angle
   encoder1Reading = angsensor.angleR(U_RAW, true);
+  Serial.println(angsensor.angleR(U_DEG, true));
+  //Serial.println(angsensor.getMovingAvgExp());
 
   //the message
   canMsg1.can_id  = 0x23;
@@ -69,10 +72,10 @@ void loop() {
   //send message
   mcp2515.sendMessage(&canMsg1);
 
-  Serial.println(canMsg1.data[0]);
-  Serial.println(canMsg1.data[1]);
+  //Serial.println(canMsg1.data[0]);
+  //Serial.println(canMsg1.data[1]);
   
-  delay(100);
+  //delay(100);
 
 }
 
