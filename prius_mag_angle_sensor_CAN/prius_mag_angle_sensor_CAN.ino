@@ -63,32 +63,15 @@ void loop() {
   //set the encoder1reading to the angle
   encoder1Reading = angsensor.angleR(U_DEG, true);
   //Serial.println(angsensor.getMovingAvgExp());
-
-  counter++;
-
-  if (counter == 2) {
-    lastangle = encoder1Reading;
-    counter = 0;
-  };
+  //Serial.println(angsensor.angleRegR());
   
-  Serial.println(lastangle);
-  Serial.println(encoder1Reading);
-
-  if (240<=lastangle<=359 and 0<=encoder1Reading<=120) {
-    bigangle +=360;
-  };
-  
-  if (240<=encoder1Reading<=359 and 0<=lastangle<=120) {
-    bigangle -= 360;
-  };
   Serial.println(bigangle);
-  
   //the message
   canMsg1.can_id  = 0x23;
   canMsg1.can_dlc = 8;
-  canMsg1.data[0] = (bigangle >> 16) & 0xFF;
-  canMsg1.data[1] = (bigangle >> 8) & 0xFF;
-  canMsg1.data[2] = (bigangle >> 0) & 0xFF;
+  canMsg1.data[0] = (encoder1Reading >> 16) & 0xFF;
+  canMsg1.data[1] = (encoder1Reading >> 8) & 0xFF;
+  canMsg1.data[2] = (encoder1Reading >> 0) & 0xFF;
   canMsg1.data[3] = 0x0;
   canMsg1.data[4] = 0x0;
   canMsg1.data[5] = 0x0;
