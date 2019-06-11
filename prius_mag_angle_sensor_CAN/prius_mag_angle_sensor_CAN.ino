@@ -65,7 +65,7 @@ void loop() {
   //Serial.println(angsensor.getMovingAvgExp());
   //Serial.println(angsensor.angleRegR());
   
-  Serial.println(bigangle);
+  Serial.println(encoder1Reading);
   //the message
   canMsg1.can_id  = 0x23;
   canMsg1.can_dlc = 8;
