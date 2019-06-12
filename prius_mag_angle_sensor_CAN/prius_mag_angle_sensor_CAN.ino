@@ -44,7 +44,7 @@ void loop() {
   encoder1Reading = angsensor.angleR(U_DEG, true); //READ the ANGSENSOR
 
   //CAN
-  canMsg1.can_id  = 0x230;
+  canMsg1.can_id  = 0x23;
   canMsg1.can_dlc = 8;
   canMsg1.data[0] = (encoder1Reading >> 16) & 0xFF; //Bitshift the ANGSENSOR (24 bit, Cabana errors with 32 bit)
   canMsg1.data[1] = (encoder1Reading >> 8) & 0xFF;
