@@ -67,7 +67,7 @@ void loop() {
   canMsg2.data[7] = 0xA0;
   
   mcp2515.sendMessage(&canMsg1);
-  //mcp2515.sendMessage(&canMsg2);
+  //mcp2515.sendMessage(&canMsg2); //Only send message 1. Reserve for future use!
 
   Serial.println("Messages sent");
   
