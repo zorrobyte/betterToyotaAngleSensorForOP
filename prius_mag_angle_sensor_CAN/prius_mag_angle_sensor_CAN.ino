@@ -42,6 +42,7 @@ void loop() {
 
   //ANGSENSOR
   encoder1Reading = angsensor.angleR(U_DEG, true); //READ the ANGSENSOR
+  Serial.println(angsensor.angleR(U_DEG, true));
 
   //CAN
   canMsg1.can_id  = 0x23;
@@ -69,7 +70,7 @@ void loop() {
   mcp2515.sendMessage(&canMsg1);
   //mcp2515.sendMessage(&canMsg2); //Only send message 1. Reserve for future use!
 
-  Serial.println("Messages sent");
+  //Serial.println("Messages sent");
   
   delay(10);
 
