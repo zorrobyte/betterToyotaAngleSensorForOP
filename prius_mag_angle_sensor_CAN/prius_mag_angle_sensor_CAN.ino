@@ -77,7 +77,7 @@ void loop() {
   canMsg1.data[5] = 0x0;
   canMsg1.data[6] = 0x0;
   //canMsg1.data[7] = 0x0;
-  canMsg1.data[7] = can_cksum (txBuffer, 7, 0x23); //TODO: Implement This
+  canMsg1.data[7] = can_cksum (canMsg1, 7, 0x23); //TODO: Implement This
   
   //send message
   mcp2515.sendMessage(&canMsg1);
