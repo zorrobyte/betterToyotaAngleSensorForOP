@@ -29,7 +29,7 @@ void setup() {
 
   //INIT CAN
   mcp2515.reset();
-  mcp2515.setBitrate(CAN_125KBPS, MCP_8MHZ); //8Mhz oscillator
+  mcp2515.setBitrate(CAN_500KBPS, MCP_8MHZ); //8Mhz oscillator
   mcp2515.setNormalMode();
   
   //INIT ANGSENSOR
@@ -71,7 +71,7 @@ void loop() {
 
   Serial.println("Messages sent");
   
-  delay(100);
+  delay(10);
 
 }
 
