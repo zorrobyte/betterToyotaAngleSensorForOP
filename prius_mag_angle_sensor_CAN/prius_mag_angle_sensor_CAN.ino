@@ -1,6 +1,7 @@
+#include <Encoder_Buffer.h>
 #include <can.h>
 #include <mcp2515.h>
-#include <ams_as5048b.h>
+#include <SPI.h>
 
 //CAN
 struct can_frame canMsg1;
@@ -8,24 +9,15 @@ struct can_frame canMsg2;
 MCP2515 mcp2515(2);
 
 //ANGSENSOR
-#define U_RAW 1
-#define U_TRN 2
-#define U_DEG 3
-#define U_RAD 4
-#define U_GRAD 5
-#define U_MOA 6
-#define U_SOA 7
-#define U_MILNATO 8
-#define U_MILSE 9
-#define U_MILRU 10
-AMS_AS5048B angsensor;
+#define EncoderCS1 10
 int32_t encoder1Reading = 0;
+Encoder_Buffer Encoder1(EncoderCS1);
 
 void setup() {
   
   while (!Serial);
   Serial.begin(115200);
-  SPI.begin();
+  //SPI.begin();
 
   //INIT CAN
   mcp2515.reset();
@@ -33,16 +25,13 @@ void setup() {
   mcp2515.setNormalMode();
   
   //INIT ANGSENSOR
-  angsensor.begin();
-  angsensor.setClockWise(true);
-  angsensor.setZeroReg(); //consider the current pos as zero
+  Encoder1.initEncoder();
 }
 
 void loop() {
-
   //ANGSENSOR
-  encoder1Reading = angsensor.angleR(U_DEG, true); //READ the ANGSENSOR
-  Serial.println(angsensor.angleR(U_DEG, true));
+  encoder1Reading = Encoder1.readEncoder(); //READ the ANGSENSOR
+  Serial.println(encoder1Reading);
 
   //CAN
   canMsg1.can_id  = 0x23;
