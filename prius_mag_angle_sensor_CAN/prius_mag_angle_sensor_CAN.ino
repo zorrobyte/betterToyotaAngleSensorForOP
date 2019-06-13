@@ -61,7 +61,7 @@ void loop() {
 
   //Serial.println("Messages sent");
   
-  //delay(10);
+  delay(5);
 
 }
 
