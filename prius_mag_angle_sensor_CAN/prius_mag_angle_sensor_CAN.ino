@@ -6,7 +6,7 @@
 //CAN
 struct can_frame canMsg1;
 struct can_frame canMsg2;
-MCP2515 mcp2515(2);
+MCP2515 mcp2515(3);
 
 //ANGSENSOR
 #define EncoderCS1 10
@@ -17,7 +17,7 @@ void setup() {
   
   while (!Serial);
   Serial.begin(115200);
-  //SPI.begin();
+  SPI.begin();
 
   //INIT CAN
   mcp2515.reset();
@@ -56,14 +56,12 @@ void loop() {
   canMsg2.data[6] = 0x00;
   canMsg2.data[7] = 0xA0;
 
-  digitalWrite(2, LOW);
   mcp2515.sendMessage(&canMsg1);
-  digitalWrite(2, HIGH);
   //mcp2515.sendMessage(&canMsg2); //Only send message 1. Reserve for future use!
 
   //Serial.println("Messages sent");
   
-  delay(10);
+  //delay(10);
 
 }
 
