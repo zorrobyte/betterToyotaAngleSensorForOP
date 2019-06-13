@@ -55,8 +55,10 @@ void loop() {
   canMsg2.data[5] = 0x00;
   canMsg2.data[6] = 0x00;
   canMsg2.data[7] = 0xA0;
-  
+
+  digitalWrite(2, LOW);
   mcp2515.sendMessage(&canMsg1);
+  digitalWrite(2, HIGH);
   //mcp2515.sendMessage(&canMsg2); //Only send message 1. Reserve for future use!
 
   //Serial.println("Messages sent");
