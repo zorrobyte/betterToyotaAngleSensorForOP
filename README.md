@@ -1,5 +1,7 @@
 # betterToyotaAngleSensorForOP
 
+WIP BOM to supplement repo https://docs.google.com/spreadsheets/d/1Pn6zGi96R18uo3hBh6kgpqTcffqMBHuL74cx0rIaKcA/edit?usp=sharing
+
 AS5047P eval board (comes with magnet):
 
 https://www.digikey.com/product-detail/en/ams/AS5047P-TS_EK_AB/AS5047P-TS_EK_AB-ND/5452344
