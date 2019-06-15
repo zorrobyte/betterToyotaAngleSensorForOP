@@ -29,6 +29,9 @@ https://www.superdroidrobots.com/shop/item.aspx/single-ls7366r-quadrature-encode
 Library for Encoder buffer
 https://github.com/SuperDroidRobots/Encoder-Buffer-Library
 
+Some flat capped M3s
+https://www.amazon.com/iExcell-Stainless-Internal-Drives-Screws/dp/B07D686M7N/ref=sr_1_4?keywords=flat+cap+m3&qid=1560569375&s=gateway&sr=8-4
+
 Basic instructions:
 Connect both the CAN board and the LS7366R to the Arduino. Connect the AS5047P to the LS7366R.
 
