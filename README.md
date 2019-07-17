@@ -43,6 +43,3 @@ https://a360.co/2X2c5dA
 Extend the hole in the EPS motor shaft, tap it to M3, align the magnet holder, attach the AS5047P to the cap, snap it in, later superglue (small amount) the cap in after everything is working.
 
 And then refingerprint your car, add the signals to cabana, offset the angle in OP, then BOOM! You are done.
-
-OP Fork:
-https://github.com/zorrobyte/openpilot/tree/devel_zorroangle
