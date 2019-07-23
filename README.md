@@ -42,4 +42,6 @@ https://a360.co/2X2c5dA
 
 Extend the hole in the EPS motor shaft, tap it to M3, align the magnet holder, attach the AS5047P to the cap, snap it in, later superglue (small amount) the cap in after everything is working.
 
+EDIT: You should be able to affix the magnet holder without any drilling or permanant modifications. Erich is working on an alternate part to enable this, and possibly an installation tool.
+
 And then refingerprint your car, add the signals to cabana, offset the angle in OP, then BOOM! You are done.
