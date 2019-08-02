@@ -11,8 +11,8 @@ MCP2515 mcp2515(3);
 //ANGSENSOR
 #define EncoderCS1 10
 int32_t encoder1Reading = 0;
-int16_t lastencoder1Reading = 0;
-int16_t rate = 0;
+int32_t lastencoder1Reading = 0;
+int32_t rate = 0;
 Encoder_Buffer Encoder1(EncoderCS1);
 
 void setup() {
@@ -65,7 +65,7 @@ void loop() {
   mcp2515.sendMessage(&canMsg1);
   //mcp2515.sendMessage(&canMsg2); //Only send message 1. Reserve for future use!
 
-  //Serial.println(rate);
+  //Serial.println(canMsg1.data[4]);
   
   delay(10);
 
