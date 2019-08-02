@@ -35,7 +35,7 @@ void loop() {
   encoder1Reading = Encoder1.readEncoder(); //READ the ANGSENSOR
   //Serial.println(encoder1Reading);
 
-  rate = encoder1Reading - lastencoder1Reading;
+  rate = abs(encoder1Reading) - abs(lastencoder1Reading);
 
   lastencoder1Reading = encoder1Reading;
 
