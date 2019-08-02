@@ -42,13 +42,13 @@ void loop() {
   //CAN
   canMsg1.can_id  = 0x23;
   canMsg1.can_dlc = 8;
-  canMsg1.data[0] = (encoder1Reading >> 16) & 0xFF; //Bitshift the ANGSENSOR (24 bit, Cabana errors with 32 bit)
-  canMsg1.data[1] = (encoder1Reading >> 8) & 0xFF;
-  canMsg1.data[2] = (encoder1Reading >> 0) & 0xFF;
-  canMsg1.data[3] = (rate >> 16) & 0xFF;
-  canMsg1.data[4] = (rate >> 8) & 0xFF;
-  canMsg1.data[5] = (rate >> 0) & 0xFF;
-  canMsg1.data[6] = 0x00;
+  canMsg1.data[0] = (encoder1Reading >> 24) & 0xFF; //Bitshift the ANGSENSOR (Cabana errors with 32 bit)
+  canMsg1.data[1] = (encoder1Reading >> 16) & 0xFF;
+  canMsg1.data[2] = (encoder1Reading >> 8) & 0xFF;
+  canMsg1.data[3] = (encoder1Reading >> 0) & 0xFF;
+  canMsg1.data[4] = (rate >> 16) & 0xFF;
+  canMsg1.data[5] = (rate >> 8) & 0xFF;
+  canMsg1.data[6] = (rate >> 0) & 0xFF;
   canMsg1.data[7] = can_cksum (canMsg1.data, 7, 0x230); //Toyota CAN CHECKSUM
 
   canMsg2.can_id  = 0x220;
