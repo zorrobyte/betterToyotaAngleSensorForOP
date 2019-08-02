@@ -67,7 +67,7 @@ void loop() {
 
   //Serial.println(rate);
   
-  delay(5);
+  delay(10);
 
 }
 
