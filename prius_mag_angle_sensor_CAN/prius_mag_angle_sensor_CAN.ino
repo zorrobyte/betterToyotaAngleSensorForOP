@@ -11,6 +11,8 @@ MCP2515 mcp2515(3);
 //ANGSENSOR
 #define EncoderCS1 10
 int32_t encoder1Reading = 0;
+int16_t lastencoder1Reading = 0;
+int16_t rate = 0;
 Encoder_Buffer Encoder1(EncoderCS1);
 
 void setup() {
@@ -31,7 +33,11 @@ void setup() {
 void loop() {
   //ANGSENSOR
   encoder1Reading = Encoder1.readEncoder(); //READ the ANGSENSOR
-  Serial.println(encoder1Reading);
+  //Serial.println(encoder1Reading);
+
+  rate = encoder1Reading - lastencoder1Reading;
+
+  lastencoder1Reading = encoder1Reading;
 
   //CAN
   canMsg1.can_id  = 0x23;
@@ -39,8 +45,8 @@ void loop() {
   canMsg1.data[0] = (encoder1Reading >> 16) & 0xFF; //Bitshift the ANGSENSOR (24 bit, Cabana errors with 32 bit)
   canMsg1.data[1] = (encoder1Reading >> 8) & 0xFF;
   canMsg1.data[2] = (encoder1Reading >> 0) & 0xFF;
-  canMsg1.data[3] = 0x00;
-  canMsg1.data[4] = 0x00;
+  canMsg1.data[3] = (rate >> 8) & 0xFF;
+  canMsg1.data[4] = (rate >> 0) & 0xFF;
   canMsg1.data[5] = 0x00;
   canMsg1.data[6] = 0x00;
   canMsg1.data[7] = can_cksum (canMsg1.data, 7, 0x230); //Toyota CAN CHECKSUM
@@ -59,7 +65,7 @@ void loop() {
   mcp2515.sendMessage(&canMsg1);
   //mcp2515.sendMessage(&canMsg2); //Only send message 1. Reserve for future use!
 
-  //Serial.println("Messages sent");
+  //Serial.println(rate);
   
   delay(5);
 
