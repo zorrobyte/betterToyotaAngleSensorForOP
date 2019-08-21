@@ -14,6 +14,8 @@ int32_t encoder1Reading = 0;
 int32_t lastencoder1Reading = 0;
 int32_t rate = 0;
 Encoder_Buffer Encoder1(EncoderCS1);
+bool AngleSensorSet = False;
+int32_t SteerAngleOffset = 0;
 
 void setup() {
   
@@ -31,8 +33,26 @@ void setup() {
 }
 
 void loop() {
+  //Angle Offset. loop here until we can get an offset
+  while(!AngleSensorSet){
+    if (mcp2515.readMessage(&canMsg) == MCP2515::ERROR_OK) {
+      if(canMsg.can_id == 0x25){
+        int16_t SteerAngleRaw = ((canMsg.data[0] & 0xF) << 8) | canMsg.data[1];
+        double SteerAngle = SteerAngleRaw * 1.5;
+        int8_t SteerFractionRaw = ((canMsg.data[4] >> 4) & 0xF) | (canMsg.data[4] & 0x80); //trick to make my 4 bit int a signed 8 bit int
+        double SteerFraction = SteerFractionRaw * 0.1;
+        SteerAngle = SteerAngle + SteerFraction;
+        Serial.println(SteerAngle);
+        SteerAngle = SteerAngle / 0.004901594652; //scale to encoder offset
+        SteerAngleOffset = (int32_t)SteerAngle;
+        AngleSensorSet = true;
+        Serial.print(SteerAngleOffset);
+        break;
+      }
+    }
+  }
   //ANGSENSOR
-  encoder1Reading = Encoder1.readEncoder(); //READ the ANGSENSOR
+  encoder1Reading = (Encoder1.readEncoder() + SteerAngleOffset); //READ the ANGSENSOR and offset it
   //Serial.println(encoder1Reading);
 
   rate = abs(encoder1Reading) - abs(lastencoder1Reading);
