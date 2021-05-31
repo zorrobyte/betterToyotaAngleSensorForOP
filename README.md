@@ -1,5 +1,8 @@
 # betterToyotaAngleSensorForOP
 
+Just buy one from Erich along with a SDSU!
+https://discord.com/channels/469524606043160576/524327905937850394/637664746539319305
+
 WIP BOM to supplement repo https://docs.google.com/spreadsheets/d/1Pn6zGi96R18uo3hBh6kgpqTcffqMBHuL74cx0rIaKcA/edit?usp=sharing
 
 AS5047P eval board (comes with magnet):
