@@ -1,55 +1,58 @@
 # betterToyotaAngleSensorForOP
 
-Just buy one from Erich along with a SDSU!
-https://discord.com/channels/469524606043160576/524327905937850394/637664746539319305
+The project aims to provide an improved angle sensor setup for Toyota vehicles compatible with OpenPilot. This involves installing a magnetic encoder sensor for more accurate angle readings, supplemented by necessary electronics and firmware.
 
-Also, a listing on OSHWLab for DIY
-https://oshwlab.com/kata3/zss-final
+## Components
 
-------------------------------------------------------------------------
+Below is a list of components needed for this project:
 
-WIP BOM to supplement repo https://docs.google.com/spreadsheets/d/1Pn6zGi96R18uo3hBh6kgpqTcffqMBHuL74cx0rIaKcA/edit?usp=sharing
+### 1. Magnetic Encoder (AS5047P)
+- **Evaluation Board (AS5047P)**: Includes the magnet necessary for sensor calibration.
+  - Purchase: [Digikey](https://www.digikey.com/product-detail/en/ams/AS5047P-TS_EK_AB/AS5047P-TS_EK_AB-ND/5452344)
+  - [Datasheet](https://ams.com/documents/20143/36005/AS5047P_DS000324_2-00.pdf)
+  - [Arduino Library](http://www.massmind.org/techref/io/sensor/pos/enc/ENC2-47P-Arduino.htm) (Default 4096 PPR)
 
-AS5047P eval board (comes with magnet):
+### 2. Microcontroller and CAN Interface
+- **Arduino**: Compatible with most versions (e.g., [this one](https://www.amazon.com/gp/product/B0713XK923/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1))
+- **CAN Board**: MCP2515 module for CAN communication.
+  - Purchase: [Amazon](https://www.amazon.com/HiLetgo-MCP2515-TJA1050-Receiver-Arduino/dp/B01D0WSEWU)
+  - Library: [GitHub - arduino-mcp2515](https://github.com/autowp/arduino-mcp2515)
 
-https://www.digikey.com/product-detail/en/ams/AS5047P-TS_EK_AB/AS5047P-TS_EK_AB-ND/5452344
+### 3. Encoder Buffer
+- **LS7366R Quadrature Encoder Buffer**: Enables precise angle tracking.
+  - Purchase: [SuperDroid Robots](https://www.superdroidrobots.com/shop/item.aspx/single-ls7366r-quadrature-encoder-buffer/2397/)
+  - Library: [GitHub - Encoder Buffer Library](https://github.com/SuperDroidRobots/Encoder-Buffer-Library)
 
-Arduino Library (default is 4096 PPR, possibly not needed):
+### 4. Additional Hardware
+- **M3 Flat-Cap Screws**: Stainless steel, non-ferrous recommended.
+  - Purchase: [Amazon](https://www.amazon.com/iExcell-Stainless-Internal-Drives-Screws/dp/B07D686M7N)
+- **3D Printed Components**: Necessary parts for mounting and alignment.
+  - Files: [Fusion 360](https://a360.co/2X2c5dA)
 
-http://www.massmind.org/techref/io/sensor/pos/enc/ENC2-47P-Arduino.htm
+### 5. Optional Items
+- **Erich’s Magnet Holder**: No permanent modifications required for installation. [Join Discord](https://discord.com/channels/469524606043160576/524327905937850394/637664746539319305) for more information.
+- **BOM (Bill of Materials)**: A supplementary [BOM on Google Sheets](https://docs.google.com/spreadsheets/d/1Pn6zGi96R18uo3hBh6kgpqTcffqMBHuL74cx0rIaKcA/edit?usp=sharing) to assist with sourcing components.
 
-Datasheet:
+## Assembly Instructions
 
-https://ams.com/documents/20143/36005/AS5047P_DS000324_2-00.pdf
+1. **Connections**:
+   - Connect the CAN board and LS7366R to the Arduino.
+   - Wire the AS5047P sensor to the LS7366R encoder buffer.
 
-Arduino:
+2. **Mechanical Setup**:
+   - Extend the hole in the EPS motor shaft, if needed, and tap it to M3 size.
+   - Align and attach the magnet holder to the cap.
+   - Snap the AS5047P sensor into place and secure it with a small amount of superglue once functionality is confirmed.
 
-https://www.amazon.com/gp/product/B0713XK923/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1
+3. **Software Configuration**:
+   - Recalibrate your vehicle’s fingerprint and add the new signals to Cabana.
+   - Adjust the angle offset within OpenPilot settings.
+   
+## Additional Resources
 
-CAN Boards:
+- DIY listing on OSHWLab: [OSHWLab Project](https://oshwlab.com/kata3/zss-final)
+- [GitHub Discussion and Updates](https://discord.com/channels/469524606043160576/524327905937850394/637664746539319305)
 
-https://www.amazon.com/HiLetgo-MCP2515-TJA1050-Receiver-Arduino/dp/B01D0WSEWU/ref=sxbs_sxwds-stvp?keywords=MCP2515&pd_rd_i=B01D0WSEWU&pd_rd_r=55913e25-7bfa-42ba-b733-50fc491a1e5a&pd_rd_w=9tyYm&pd_rd_wg=gJSDp&pf_rd_p=a6d018ad-f20b-46c9-8920-433972c7d9b7&pf_rd_r=WJENW45G8ZVXYJ0ZCYPR&qid=1559583482&s=hi
+## Acknowledgments
 
-Library for CAN Boards:
-https://github.com/autowp/arduino-mcp2515
-
-Single LS7366R Quadrature Encoder Buffer
-https://www.superdroidrobots.com/shop/item.aspx/single-ls7366r-quadrature-encoder-buffer/2397/
-
-Library for Encoder buffer
-https://github.com/SuperDroidRobots/Encoder-Buffer-Library
-
-Some flat capped M3s (stainless works, try to stay away from highly ferrous materials)
-https://www.amazon.com/iExcell-Stainless-Internal-Drives-Screws/dp/B07D686M7N/ref=sr_1_4?keywords=flat+cap+m3&qid=1560569375&s=gateway&sr=8-4
-
-Basic instructions:
-Connect both the CAN board and the LS7366R to the Arduino. Connect the AS5047P to the LS7366R.
-
-Print these files:
-https://a360.co/2X2c5dA
-
-Extend the hole in the EPS motor shaft, tap it to M3, align the magnet holder, attach the AS5047P to the cap, snap it in, later superglue (small amount) the cap in after everything is working.
-
-EDIT: You should be able to affix the magnet holder without any drilling or permanant modifications. Erich is working on an alternate part to enable this, and possibly an installation tool.
-
-And then refingerprint your car, add the signals to cabana, offset the angle in OP, then BOOM! You are done.
+Special thanks to Erich and the community for providing valuable resources and feedback.
