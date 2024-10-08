@@ -3,6 +3,8 @@
 Just buy one from Erich along with a SDSU!
 https://discord.com/channels/469524606043160576/524327905937850394/637664746539319305
 
+Also, a listing on OSHWLab for DIY
+https://oshwlab.com/kata3/zss-final
 
 ------------------------------------------------------------------------
 
